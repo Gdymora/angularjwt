@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+.grow:hover {
+    -webkit-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+
+.faderes {
+    opacity: 0.9;
+  }
+  
+.faderes:hover {
+    opacity: 1.2;
+  }
