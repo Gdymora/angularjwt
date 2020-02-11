@@ -2,9 +2,10 @@
 <div class="container">
 <div class="row">
   <div class="col s12 m12">
-        <h5 class="card-title">Кабінет користувача
+        <h5 class="card-title">Кабінет користувача</h5>
            <button type="button"
-           class="float-right btn btn-outline-danger btn-sm grow" (click)="logout()">Вийти</button></h5>
+           class="right btn btn-outline-danger btn-sm grow" (click)="logout()">Вийти</button>
+           
         <h4>Перелік виставлених вами лотів</h4>
              
           <table border='1' width='100%' style='border-collapse: collapse;'>
@@ -24,9 +25,9 @@
               <td>{{ policy.price }}</td>
               <td>{{ policy.currency }}</td>
               <td>
-                <button class="float-right btn btn-outline-danger btn-sm deep-orange accent-4 grow" (click)="deletePolicy(policy.id)">
+                <button class="right btn btn-outline-danger btn-sm deep-orange accent-4 grow" (click)="deletePolicy(policy.id)">
                   <i class="material-icons center">delete</i></button>
-                <button class="float-right btn btn-outline-info btn-sm green accent-1 grow" (click)="selectPolicy(policy)">
+                <button class="right btn btn-outline-info btn-sm green accent-1 grow" (click)="selectPolicy(policy)">
                   <i class="material-icons center">create</i></button>
               </td>
             </tr>

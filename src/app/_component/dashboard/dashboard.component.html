@@ -1,11 +1,16 @@
+
+ 
+
 <div class="col s9 m12"></div>
 <div class="container"> 
   <p>tempo: {{modelWeather.main.temp}} </p> 
- 
+
+
+
   <div class="row "  *ngFor="let policy of policies">
       <div class="col s9 m12">
      
-           <h6 class="header"><p>{{ policy.title }}</p></h6>
+      <h6 class="header"><p>{{ policy.title }}</p></h6>
          <div class="card horizontal grow">
      
             <div class="card-stacked">

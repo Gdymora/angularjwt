@@ -4,11 +4,13 @@ import { ApiService } from '../../_services/api.service';
 import {WeatherService } from '../../_services/weather.service';
 import { Policy } from  '../../_models/policy';
  
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
+
 export class DashboardComponent implements OnInit {
   
   policies: Policy[]
@@ -19,14 +21,17 @@ export class DashboardComponent implements OnInit {
 
 
    modelWeather:any = {
+      main:{
+         temp:null
+      }
     }
 
-  ngOnInit() {
+  ngOnInit() {    
     this.apiService.indexPolicies().subscribe(response=>{        
         this.policies = response['data'];      
     }); 
-    this.getPosition();  
-      
+    
+    this.getPosition(); 
   }
 
 
