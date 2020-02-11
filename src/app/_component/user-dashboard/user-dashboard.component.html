@@ -25,7 +25,7 @@
               <td>{{ policy.price }}</td>
               <td>{{ policy.currency }}</td>
               <td>
-                <button class="right btn btn-outline-danger btn-sm deep-orange accent-4 grow" (click)="deletePolicy(policy.id)">
+                <button class="right btn btn-outline-danger btn-sm deep-orange accent-4 grow" (click)="deletePolicy(policy.id, policy)">
                   <i class="material-icons center">delete</i></button>
                 <button class="right btn btn-outline-info btn-sm green accent-1 grow" (click)="selectPolicy(policy)">
                   <i class="material-icons center">create</i></button>
@@ -53,9 +53,16 @@
     <label>Валюта</label>
     
     <input type="text" name="currency" [(ngModel)] = "selectedPolicy.currency">
-   
+
+    <input type="file" name="uploadedFile" [(ngModel)] = "selectedPolicy.fileData" accept="image/*" (change)="showPreview($event)" />
+    <!-- Image Preview -->
+  <div class="imagePreview" *ngIf="imageURL && imageURL !== ''">
+    <img [src]="imageURL" [alt]="uploadForm.value.name">
+  </div>
+  
     <br>
-    <input class="waves-effect waves-light btn-large  red darken-1" type="button" (click)="createOrUpdatePolicy(formpost)" value="Створити/редагувати">
+    <button class="waves-effect waves-light btn-large  red darken-1" type="button" (click)="createOrUpdatePolicy(formpost)">Створити/редагувати</button>
+    
   </form>
 </div>
 

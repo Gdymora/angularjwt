@@ -8,4 +8,5 @@ export class Policy {
     currency:  string;
     status: string;
     message: string;
+    fileData: File;
 }

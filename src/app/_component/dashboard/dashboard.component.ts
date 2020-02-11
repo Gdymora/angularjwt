@@ -34,7 +34,45 @@ export class DashboardComponent implements OnInit {
     this.getPosition(); 
   }
 
+  sortLowering(idelement:any){    
+  //понижение
+    for(var i = 0;i < idelement.length; i++){
+      idelement.sort((n1,n2) => {
+        if (n1.price > n2.price) {
+            return -1;
+        }
+    
+        if (n1.price < n2.price) {
+            return 1;
+        }    
+        return 0;
+    });
+       
+     } 
+     this.policies=idelement;
+     console.log(idelement);
+      
+    }
 
+    sortIncrease(idelement:any){    
+  
+      for(var i = 0;i < idelement.length; i++){
+        idelement.sort((n1,n2) => {
+          if (n1.price > n2.price) {
+              return 1;
+          }
+      
+          if (n1.price < n2.price) {
+              return -1;
+          }    
+          return 0;
+      });
+         
+       } 
+       this.policies=idelement;
+       console.log(idelement);
+        
+      }
 
   public getPosition() {
     if (window.navigator && window.navigator.geolocation) {

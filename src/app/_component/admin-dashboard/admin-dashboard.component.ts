@@ -9,71 +9,120 @@ import { Policy } from  '../../_models/policy';
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
- model: any = {};
-//dataFromServer: any = [];
+  fileData: File = null;
 
-policies: Policy[]
+  model: any = {};
+  //dataFromServer: any = [];
 
-selectedPolicy:  Policy  = { 
-  id: null,
-  user_id:   null,
-  title:   null,
-  post:   null,
-  price:  null,
-  currency:   null,
-  status: null,
-  message: null,
-}
-
-
-constructor(
-  private authService: AuthService,
-  private apiService: ApiService
-) { }
-
-ngOnInit() {
-  this.apiService.readPolicies().subscribe(response=>{
-    if (response['status'] === 'success') {        
-      this.policies = response['data'];
-      console.log(this.policies );
-    }else if (response['status'] === 'not post') {
-      this.policies = response['data'];
-      console.log(this.policies );
-    }
-  }, error => {
-        this.authService.logout();
-      }); 
-  console.log("UserDashboard")
-}
-
-selectPolicy(policy: Policy){
-  this.selectedPolicy = policy;
-}
-
-createOrUpdatePolicy(form){
-   if(this.selectedPolicy && this.selectedPolicy.id){  
-    form.value.id=this.selectedPolicy.id
-
-    this.apiService.updatePolicy(form.value).subscribe((policy: Policy)=>{
-      console.log("Policy updated", policy);
-    });
+  policies: Policy[]
+  
+  selectedPolicy:  Policy  = { 
+    id: null,
+    user_id:   null,
+    title:   null,
+    post:   null,
+    price:  null,
+    currency:   null,
+    status: null,
+    message: null,
+    fileData: null
   }
-  else{
-    this.apiService.createPolicy(form.value).subscribe((policy: Policy)=>{
+  id:number;
+ 
+  constructor(
+    private authService: AuthService,
+    private apiService: ApiService
+  ) { 
+   
+  }
+ 
+  ngOnInit() {
+    this.apiService.readPolicies().subscribe(response=>{
+      if (response['status'] === 'success') {        
+        this.policies = response['data'];
+        console.log(this.policies );
+      }else if (response['status'] === 'not post') {
+        this.policies = response['data'];
+        console.log(this.policies );
+      }
+    }, error => {
+          this.authService.logout();
+        }); 
+    console.log("UserDashboard")
+  }
+
+  // Image Preview
+  // Image Preview
+  showPreview(event) {
+    const file = (event.target as HTMLInputElement).files[0]; 
+    console.log(file );   
+  }
+
+  selectPolicy(policy: Policy){
+    this.selectedPolicy = policy;
+  }
+   
+  createOrUpdatePolicy(form){
+     if(this.selectedPolicy && this.selectedPolicy.id){  
+      form.value.id=this.selectedPolicy.id
+      this.apiService.updatePolicy(form.value).subscribe((policy: Policy)=>{
+        console.log("Policy updated", policy);
+        this.onRemove(policy);
+      });
+
+    }
+    else{
+     
+        console.log(form);  
+      this.apiService.createPolicy(form.value).subscribe((policy: Policy)=>{
+        console.log("Policy created, ", policy);
+        this.onCreate(policy);
+      });
+    }
+
+  }
+
+  deletePolicy(id: number, idelement:any){
+    this.apiService.deletePolicy(id).subscribe((policy: Policy)=>{
       console.log("Policy created, ", policy);
     });
+    this.onRemove(idelement);
   }
 
-}
+  onRemove(idelement:any){ 
+    console.log(this.policies[idelement]);
+    console.log(idelement.id);
+    this.id = idelement.id;
+  
+    for(var i = 0;i < this.policies.length; i++){
+      if(idelement.id == this.policies[i].id){
+        console.log(this.policies[i].id);
+        this.policies.splice(i,1);
+          break;
+      }
+     }
+    }
+  
+  onUpdate(idelement:any){ 
+      this.id = idelement.id;
+  
+    for(var i = 0;i < this.policies.length; i++){
+      if(idelement.id == this.policies[i].id){
+        console.log(this.policies[i].id);
+        this.policies.splice(i,0,this.policies[i]);
+          break;
+      }
+     }
+       
+  }
 
-deletePolicy(id: number){
-  this.apiService.deletePolicy(id).subscribe((policy: Policy)=>{
-    console.log("Policy created, ", policy);
-  });
-}
+  onCreate(policy:any){ 
+      this.policies.push(policy);
+      console.log(policy);
+       
+  }
 
-
-logout(){
-  this.authService.logout();
-}
+  logout(){
+    this.authService.logout();
+  }
 }

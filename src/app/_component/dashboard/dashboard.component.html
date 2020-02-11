@@ -1,18 +1,23 @@
 
  
-
+ <div class="collection">
+ 
+   
 <div class="col s9 m12"></div>
 <div class="container"> 
-  <p>tempo: {{modelWeather.main.temp}} </p> 
+  сортувати по ціні:
+   <button (click)="sortLowering(policies)">за зростанням</button> 
+   <button (click)="sortIncrease(policies)">за спаданням</button> 
 
-
-
-  <div class="row "  *ngFor="let policy of policies">
+<h4>Температура: {{modelWeather.main.temp}}&#176;C </h4>
+  <div class="row "  *ngFor="let policy of policies ; let i=index">
       <div class="col s9 m12">
      
       <h6 class="header"><p>{{ policy.title }}</p></h6>
-         <div class="card horizontal grow">
-     
+         <div class="card horizontal grow">  
+          <div class="card-image">
+            <img src="https://lorempixel.com/100/190/nature/{{i}}">
+          </div>   
             <div class="card-stacked">
                   <div class="card-content">
 
