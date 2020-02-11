@@ -25,8 +25,8 @@ export class DashboardComponent implements OnInit {
     this.apiService.indexPolicies().subscribe(response=>{        
         this.policies = response['data'];      
     }); 
-    this.getPosition();    
-   
+    this.getPosition();  
+      
   }
 
 
