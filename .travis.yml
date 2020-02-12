@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+- '10'
+
+before_install:
+- npm install -g @angular/cli
+install: npm install
+
+branches:
+  only:
+  - master
+
+deploy:
+  provider: heroku
+  app: clickraduga
+  api_key:
+    secure: "55b3552e-8d04-47e9-9164-c7f5f2fdc7b5"
