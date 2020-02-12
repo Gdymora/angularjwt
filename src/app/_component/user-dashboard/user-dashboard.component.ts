@@ -30,6 +30,7 @@ export class UserDashboardComponent implements OnInit {
     fileData: null
   }
   id:number;
+  files: any;
  
   constructor(
     private authService: AuthService,
@@ -60,6 +61,11 @@ export class UserDashboardComponent implements OnInit {
     console.log(file );   
   }
 
+  addPhoto(event) {
+    let target = event.target || event.srcElement;
+    this.files = target.files;
+  }
+
   selectPolicy(policy: Policy){
     this.selectedPolicy = policy;
   }
@@ -74,8 +80,22 @@ export class UserDashboardComponent implements OnInit {
 
     }
     else{
-     
-        console.log(form);  
+        let final_data;
+        console.log(form); 
+        if (this.files) {
+          let files: FileList = this.files;
+          const formData = new FormData();
+          for (let i = 0; i < files.length; i++) {
+              formData.append('photo', files[i]);
+          }
+          formData.append('data', JSON.stringify(form));
+          
+          final_data = formData;
+      } else {
+          //Если нет файла, то слать как обычный JSON
+          final_data = form;
+      }
+
       this.apiService.createPolicy(form.value).subscribe((policy: Policy)=>{
         console.log("Policy created, ", policy);
         this.onCreate(policy);

@@ -57,7 +57,7 @@
     <input type="file" name="uploadedFile" [(ngModel)] = "selectedPolicy.fileData" accept="image/*" (change)="showPreview($event)" />
     <!-- Image Preview -->
   <div class="imagePreview" *ngIf="imageURL && imageURL !== ''">
-    <img [src]="imageURL" [alt]="uploadForm.value.name">
+    <input type="file" name="photo" (change)="addPhoto($event)"/>
   </div>
   
     <br>

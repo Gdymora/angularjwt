@@ -1,5 +1,8 @@
 
- <
-    <!-- Select File -->
-    <input type="file" accept="image/*" (change)="showPreview($event)" />
+ <form name="form" (ngSubmit)="f.form.valid && submitRegister()" #f="ngForm" novalidate>
+   <input type="text" placeholder="Фамилия" name="last" [(ngModel)]="form.name.last" #last="ngModel"/>
+  <input type="text" placeholder="Имя" name="first" [(ngModel)]="form.name.first" #first="ngModel"/>
+  <input type="file" name="photo" (change)="addPhoto($event)"/>
+  <button type="submit">Отправить</button>
+
   
