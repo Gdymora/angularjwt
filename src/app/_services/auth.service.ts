@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class AuthService {
 
   // basePath : определить путь API.
-  basePath = 'http://angular.propan.top/autorization/';
+  basePath = 'https://angular.propan.top/autorization/';
  
   constructor(
     private router: Router,

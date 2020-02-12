@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 })
 export class ApiService {
 
-  PHP_API_SERVER = "http://angular.propan.top/backend";
+  PHP_API_SERVER = "https://angular.propan.top/backend";
 
   constructor(private httpClient: HttpClient, private http:HttpClient) { }
 
