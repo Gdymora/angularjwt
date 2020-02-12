@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class WeatherService {
 
-  PHP_API_SERVER = "http://angular.propan.top";
+  PHP_API_SERVER = "https://angular.propan.top";
 
   constructor(private httpClient: HttpClient) { }
 
