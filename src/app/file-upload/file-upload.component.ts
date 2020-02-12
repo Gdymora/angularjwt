@@ -1,9 +1,7 @@
 
-
   import { Component, Inject, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
   import { HttpClient, HttpEventType } from '@angular/common/http';
-  import { DOCUMENT } from '@angular/common';
-  
+  import { DOCUMENT } from '@angular/common';  
   import { fromEvent, Subject } from 'rxjs';
   import { mergeMap, finalize, takeUntil, first } from 'rxjs/operators';
   
@@ -80,4 +78,3 @@
       this.destroy$.complete();
     }
   }
-  
