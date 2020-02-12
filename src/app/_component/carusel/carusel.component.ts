@@ -11,7 +11,7 @@ declare const M;
 export class CaruselComponent implements OnInit {
 
   constructor(
-    private authService: AuthService, 
+    public authService: AuthService, 
     public router: Router ) { }
 
   ngOnInit() {

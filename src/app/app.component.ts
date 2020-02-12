@@ -12,7 +12,7 @@ declare const M;//глобальная константа
 export class AppComponent implements OnInit{
  
   constructor(
-    private authService: AuthService, 
+    public authService: AuthService, 
     public router: Router 
   ) {
 

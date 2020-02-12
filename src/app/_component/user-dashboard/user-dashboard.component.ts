@@ -10,7 +10,8 @@ import { FormBuilder, FormGroup } from "@angular/forms";
   styleUrls: ['./user-dashboard.component.css']
 })
 export class UserDashboardComponent implements OnInit {
-
+  public submitted: boolean = false;
+  public f: any;
   clearForm(){
     //<HTMLFormElement> необходимо передать вручную конкретный тип
     (<HTMLFormElement>document.getElementById("userform")).reset();

@@ -9,7 +9,8 @@ import { Policy } from  '../../_models/policy';
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
- 
+  public submitted: boolean = false;
+  public f: any;
   clearForm(){
     //<HTMLFormElement> необходимо передать вручную конкретный тип
     (<HTMLFormElement>document.getElementById("userform")).reset();

@@ -10,7 +10,9 @@ import { AuthService } from '../../_services/auth.service';
 export class LoginComponent implements OnInit {
  
   model: any = {};
- 
+
+  public submitted: boolean = false;
+
   constructor(
     private authService: AuthService
   ) {}
