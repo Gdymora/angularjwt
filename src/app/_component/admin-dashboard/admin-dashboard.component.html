@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row">
     <div class="col s12 m12">
-          <h5 class="card-title">Кабінет адміністратора</h5>
+          <h5 class="card-title">Кабінет користувача</h5>
              <button type="button"
              class="right btn btn-outline-danger btn-sm grow" (click)="logout()">Вийти</button>
              
@@ -18,7 +18,7 @@
                 <th>видалити/редагувати</th>
           
               </tr>      
-              <tr *ngFor="let policy of policies">
+              <tr *ngFor="let policy of policies">                
                 <td>{{ policy.id }}</td>
                 <td>{{ policy.title }}</td>
                 <td>{{ policy.post }}</td>
@@ -40,26 +40,66 @@
    <div class="row">  
      
     <div class="col s12 m12 ">
-      <form #formpost = "ngForm">
+      <form id="userform" #userform="ngForm" (ngSubmit)="onSubmit(f.value)">
         <label>Заголовок</label>
-        <input type="text" name="title" [(ngModel)] = "selectedPolicy.title">
+        <input required minlength="12" maxlength="90" type="text" name="title" [(ngModel)] = "selectedPolicy.title" #titleModel="ngModel" required>
         <br>
-        <label>Опис лоту</label>
-        <input type="text" name="post" [(ngModel)] = "selectedPolicy.post">
+
+        <div *ngIf="!titleModel.valid && titleModel.touched">
+         <span> Введення заголовку дозволяється від 12 до 90 символів</span>
+        </div>
+        
         <br>
         <label>Ціна</label>
-        <input type="text" name="price" [(ngModel)] = "selectedPolicy.price">
+        <input min="1" required type="number" name="price" [(ngModel)] = "selectedPolicy.price" #priceModel="ngModel" >
+
+        <div *ngIf="!priceModel.valid && priceModel.touched">
+          <span> Ввведення ціни обов'язкове </span> {{priceModel.value}}
+        </div>
+
         <br>
         <label>Валюта</label>
-        
-        <input type="text" name="currency" [(ngModel)] = "selectedPolicy.currency">
-    
-        <input type="file"    id="file"   (change)="handleFileInput($event.target.files)">
-        <br>
-        <button class="waves-effect waves-light btn-large  red darken-1" type="button" (click)="createOrUpdatePolicy(formpost)">Створити/редагувати</button>
+           <select type="text" name="currency" [(ngModel)] = "selectedPolicy.currency" #currencyModel="ngModel"> 
+          <!--Supplement an id here instead of using 'name'-->
+          <option value="uah">Гривня</option> 
+          <option value="btc">Биткоїн</option>
+          <option value="krb" selected>Карбо</option>
+        </select>
+        <div *ngIf="!currencyModel.valid && currencyModel.touched">
+          <span> Заголовок обв'язково </span>
+        </div>
+
+        <label>Опис лоту</label>
+        <textarea  rows="10" cols="45"
+              required minlength="45" maxlength="200" type="text" name="post" [(ngModel)] = "selectedPolicy.post" 
+              #postModel="ngModel">
+        </textarea>      
+        <div *ngIf="!postModel.valid && postModel.touched">
+          <span> Введення опису дозволяється від 120 до 200 символів</span>
+        </div>
+
+        <div class = "file-field input-field">
+          <div class = "btn purple darken-3">
+             <span>Додати зображення</span>
+             <input type ="file"    id="file"   (change)="handleFileInput($event.target.files)" required>    
+          </div>
+          
+          <div class = "file-path-wrapper">
+             <input class = "file-path validate" type = "text"
+                placeholder = "Дозволяється формат PNG JPEG" />
+          </div>
+       </div>    
+            
+
+        <button [disabled]="submitted || !userform.valid" class="waves-effect waves-light btn-large  red darken-1" type="button" (click)="createOrUpdatePolicy(userform)">Створити/редагувати</button>
+
+      <button class="waves-effect waves-light btn-large  red darken-4" type="button" (click)="clearForm()">Очистити</button>
         
       </form>
-  </div>
-  
+
+      
+
+    </div>
+    </div>
   </div>
   

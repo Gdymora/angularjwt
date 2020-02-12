@@ -9,6 +9,18 @@ import { Policy } from  '../../_models/policy';
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
+ 
+  clearForm(){
+    //<HTMLFormElement> необходимо передать вручную конкретный тип
+    (<HTMLFormElement>document.getElementById("userform")).reset();
+   }
+
+  onSubmit(formValue: any) {
+
+    console.log(formValue);
+
+  }
+   
   fileToUpload: File = null;
 
   model: any = {};
@@ -41,7 +53,7 @@ export class AdminDashboardComponent implements OnInit {
     this.apiService.readPolicies().subscribe(response=>{
       if (response['status'] === 'success') {        
         this.policies = response['data'];
-        console.log(this.policies );
+        console.log(this.policies );        
       }else if (response['status'] === 'not post') {
         this.policies = response['data'];
         console.log(this.policies );
@@ -53,12 +65,13 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   // Image Preview
- // Image Preview сохраняем файл
- handleFileInput(files: FileList) {
-   this.fileToUpload = files.item(0);
+ // Image Preview сохранеям файл
+  handleFileInput(files: FileList) {
+    this.fileToUpload = files.item(0);
+   // this.selectedPolicy.fileData=this.fileToUpload.name;
    this.name =this.fileToUpload.name;//сохраняем его имя
-   console.log(this.fileToUpload.name);
-}
+    console.log(this.fileToUpload.name);
+  }
 
 
   selectPolicy(policy: Policy){
@@ -67,28 +80,37 @@ export class AdminDashboardComponent implements OnInit {
    
   createOrUpdatePolicy(form){
      if(this.selectedPolicy && this.selectedPolicy.id){  
-      form.value.id=this.selectedPolicy.id
+      form.value.id = this.selectedPolicy.id
       this.apiService.updatePolicy(form.value).subscribe((policy: Policy)=>{
         console.log("Policy updated", policy);
+
         this.onRemove(policy);
+        this.clearForm();
       });
 
     }
     else{
-      //отправляем файл
-      this.apiService.postFile(this.fileToUpload).subscribe(data => {
-      console.log(this.fileToUpload);
-      // do something, if upload success
-      }, error => {
-        console.log(error);
-      });
-      //отправляем форму
+
+       //отправляем файл
+       if(this.fileToUpload){
+           this.apiService.postFile(this.fileToUpload).subscribe(data => {
+               console.log(this.fileToUpload);
+               // do something, if upload success
+           }, error => {
+               console.log(error);
+           });
+       }
+      //отправляем форму   
+
       form.value.fileData = this.name;//передаем имя в форму
-        console.log(form);  
+         console.log(form); 
+
       this.apiService.createPolicy(form.value).subscribe((policy: Policy)=>{
-        console.log("Policy created, ", policy);
-        this.onCreate(policy);
+         console.log("Policy created, ", policy);
+         this.onCreate(policy);
+         this.clearForm();
       });
+
     }
 
   }

@@ -49,8 +49,6 @@ export class UserDashboardComponent implements OnInit {
   ) { 
    
   }
-
-
  
   ngOnInit() {
     this.apiService.readPolicies().subscribe(response=>{
