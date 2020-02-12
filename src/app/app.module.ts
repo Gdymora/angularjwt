@@ -15,6 +15,7 @@ import { AdminDashboardComponent } from './_component/admin-dashboard/admin-dash
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { CaruselComponent } from './_component/carusel/carusel.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,  
@@ -23,7 +24,7 @@ import { CaruselComponent } from './_component/carusel/carusel.component';
     UserDashboardComponent,
     AdminDashboardComponent,
     FileUploadComponent,
-    CaruselComponent,
+    CaruselComponent,  
   ],
   imports: [
     BrowserModule,

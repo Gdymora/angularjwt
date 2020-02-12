@@ -9,7 +9,7 @@ import { Policy } from  '../../_models/policy';
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
-  fileData: File = null;
+  fileToUpload: File = null;
 
   model: any = {};
   //dataFromServer: any = [];
@@ -28,6 +28,7 @@ export class AdminDashboardComponent implements OnInit {
     fileData: null
   }
   id:number;
+  name:string;
  
   constructor(
     private authService: AuthService,
@@ -52,11 +53,13 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   // Image Preview
-  // Image Preview
-  showPreview(event) {
-    const file = (event.target as HTMLInputElement).files[0]; 
-    console.log(file );   
-  }
+ // Image Preview сохраняем файл
+ handleFileInput(files: FileList) {
+   this.fileToUpload = files.item(0);
+   this.name =this.fileToUpload.name;//сохраняем его имя
+   console.log(this.fileToUpload.name);
+}
+
 
   selectPolicy(policy: Policy){
     this.selectedPolicy = policy;
@@ -72,7 +75,15 @@ export class AdminDashboardComponent implements OnInit {
 
     }
     else{
-     
+      //отправляем файл
+      this.apiService.postFile(this.fileToUpload).subscribe(data => {
+      console.log(this.fileToUpload);
+      // do something, if upload success
+      }, error => {
+        console.log(error);
+      });
+      //отправляем форму
+      form.value.fileData = this.name;//передаем имя в форму
         console.log(form);  
       this.apiService.createPolicy(form.value).subscribe((policy: Policy)=>{
         console.log("Policy created, ", policy);

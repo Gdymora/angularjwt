@@ -40,30 +40,25 @@
    <div class="row">  
      
     <div class="col s12 m12 ">
-    <form #formpost = "ngForm">
-      <label>Заголовок</label>
-      <input type="text" name="title" [(ngModel)] = "selectedPolicy.title">
-      <br>
-      <label>Опис лоту</label>
-      <input type="text" name="post" [(ngModel)] = "selectedPolicy.post">
-      <br>
-      <label>Ціна</label>
-      <input type="text" name="price" [(ngModel)] = "selectedPolicy.price">
-      <br>
-      <label>Валюта</label>
-      
-      <input type="text" name="currency" [(ngModel)] = "selectedPolicy.currency">
-  
-      <input type="file" name="uploadedFile" [(ngModel)] = "selectedPolicy.fileData" accept="image/*" (change)="showPreview($event)" />
-      <!-- Image Preview -->
-    <div class="imagePreview" *ngIf="imageURL && imageURL !== ''">
-      <img [src]="imageURL" [alt]="uploadForm.value.name">
-    </div>
+      <form #formpost = "ngForm">
+        <label>Заголовок</label>
+        <input type="text" name="title" [(ngModel)] = "selectedPolicy.title">
+        <br>
+        <label>Опис лоту</label>
+        <input type="text" name="post" [(ngModel)] = "selectedPolicy.post">
+        <br>
+        <label>Ціна</label>
+        <input type="text" name="price" [(ngModel)] = "selectedPolicy.price">
+        <br>
+        <label>Валюта</label>
+        
+        <input type="text" name="currency" [(ngModel)] = "selectedPolicy.currency">
     
-      <br>
-      <button class="waves-effect waves-light btn-large  red darken-1" type="button" (click)="createOrUpdatePolicy(formpost)">Створити/редагувати</button>
-      
-    </form>
+        <input type="file"    id="file"   (change)="handleFileInput($event.target.files)">
+        <br>
+        <button class="waves-effect waves-light btn-large  red darken-1" type="button" (click)="createOrUpdatePolicy(formpost)">Створити/редагувати</button>
+        
+      </form>
   </div>
   
   </div>

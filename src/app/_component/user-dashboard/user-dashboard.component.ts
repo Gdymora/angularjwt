@@ -11,7 +11,18 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 })
 export class UserDashboardComponent implements OnInit {
 
-  fileData: File = null;
+  clearForm(){
+    //<HTMLFormElement> необходимо передать вручную конкретный тип
+    (<HTMLFormElement>document.getElementById("userform")).reset();
+   }
+
+  onSubmit(formValue: any) {
+
+    console.log(formValue);
+
+  }
+   
+  fileToUpload: File = null;
 
   model: any = {};
   //dataFromServer: any = [];
@@ -30,7 +41,7 @@ export class UserDashboardComponent implements OnInit {
     fileData: null
   }
   id:number;
-  files: any;
+  name:string;
  
   constructor(
     private authService: AuthService,
@@ -38,12 +49,14 @@ export class UserDashboardComponent implements OnInit {
   ) { 
    
   }
+
+
  
   ngOnInit() {
     this.apiService.readPolicies().subscribe(response=>{
       if (response['status'] === 'success') {        
         this.policies = response['data'];
-        console.log(this.policies );
+        console.log(this.policies );        
       }else if (response['status'] === 'not post') {
         this.policies = response['data'];
         console.log(this.policies );
@@ -55,16 +68,14 @@ export class UserDashboardComponent implements OnInit {
   }
 
   // Image Preview
-  // Image Preview
-  showPreview(event) {
-    const file = (event.target as HTMLInputElement).files[0]; 
-    console.log(file );   
+ // Image Preview сохранеям файл
+  handleFileInput(files: FileList) {
+    this.fileToUpload = files.item(0);
+   // this.selectedPolicy.fileData=this.fileToUpload.name;
+   this.name =this.fileToUpload.name;//сохраняем его имя
+    console.log(this.fileToUpload.name);
   }
 
-  addPhoto(event) {
-    let target = event.target || event.srcElement;
-    this.files = target.files;
-  }
 
   selectPolicy(policy: Policy){
     this.selectedPolicy = policy;
@@ -72,34 +83,37 @@ export class UserDashboardComponent implements OnInit {
    
   createOrUpdatePolicy(form){
      if(this.selectedPolicy && this.selectedPolicy.id){  
-      form.value.id=this.selectedPolicy.id
+      form.value.id = this.selectedPolicy.id
       this.apiService.updatePolicy(form.value).subscribe((policy: Policy)=>{
         console.log("Policy updated", policy);
+
         this.onRemove(policy);
+        this.clearForm();
       });
 
     }
     else{
-        let final_data;
-        console.log(form); 
-        if (this.files) {
-          let files: FileList = this.files;
-          const formData = new FormData();
-          for (let i = 0; i < files.length; i++) {
-              formData.append('photo', files[i]);
-          }
-          formData.append('data', JSON.stringify(form));
-          
-          final_data = formData;
-      } else {
-          //Если нет файла, то слать как обычный JSON
-          final_data = form;
-      }
+
+       //отправляем файл
+       if(this.fileToUpload){
+           this.apiService.postFile(this.fileToUpload).subscribe(data => {
+               console.log(this.fileToUpload);
+               // do something, if upload success
+           }, error => {
+               console.log(error);
+           });
+       }
+      //отправляем форму   
+
+      form.value.fileData = this.name;//передаем имя в форму
+         console.log(form); 
 
       this.apiService.createPolicy(form.value).subscribe((policy: Policy)=>{
-        console.log("Policy created, ", policy);
-        this.onCreate(policy);
+         console.log("Policy created, ", policy);
+         this.onCreate(policy);
+         this.clearForm();
       });
+
     }
 
   }
